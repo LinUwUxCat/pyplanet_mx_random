@@ -1,0 +1,5 @@
+<frame pos="65 -83" id="mx_random_frame" z-index="110">
+    <quad pos="46.75 0" size="13.5 6" z-index="0" bgcolor="00000060"/>
+    <label pos="49.75 -3.2" z-index="1" size="6.5 6" text="&#xf128;" halign="center" valign="center2" id="mx_random_help" textsize="2.0" scriptevents="1" action="{{ id }}__mx_random_help"/>
+    <label pos="56.25 -3.2" z-index="1" size="6.5 6" text="&#xf091;" halign="center" valign="center2" id="mx_random_ranking" textsize="2.0" scriptevents="1" action="{{ id }}__mx_random_ranking"/>
+</frame>
