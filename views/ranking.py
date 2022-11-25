@@ -39,7 +39,4 @@ class MXRRanking(ManualListView):
                 'user_points':j,
             })
         return items
-            # TODO https://github.com/skybaks/pyplanet-cup_manager/blob/master/cup_manager/views/cup_view.py#L152
-            # basically take things from an app method (like make a select * in __init__.py)
-            # then add them to items and return it
-            # fields is also todo
+            # Shoutouts to https://github.com/skybaks/pyplanet-cup_manager/blob/master/cup_manager/views/cup_view.py#L152 for the reference on how to use a ManualListView

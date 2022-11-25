@@ -9,6 +9,7 @@ import aiohttp
 from datetime import datetime
 from .models import UserPoints
 from .views.buttons import MXRButtons
+from .views.ranking import MXRRanking
 import logging
 
 class MxRandomApp(AppConfig):
@@ -140,10 +141,12 @@ class MxRandomApp(AppConfig):
 		await self.instance.chat("$bMX Random plugin help$z\nWhen someone in the server gets an author medal on the current map, the remaining drivers have 20 seconds to get one as well\nOnce the time is over, the first finisher with Author Time gets 1 point, the second 0.5, the third 0.25, etc.\nAfterwards, the map gets chosen randomly from mania-exchange.", player)
 	
 	async def randrank(self, player, **kwargs):
-		await self.instance.chat("TODO : Implement this")
-		e = await UserPoints.execute(UserPoints.select().order_by(UserPoints.points.desc()))
-		for i in e:
-			logging.getLogger(__name__).info(i)
+		v = MXRRanking(self)
+		v.display(player)
 
-	#async def get_all_points(self, **kwargs):
-		
+	async def get_all_points(self, **kwargs):
+		e = await UserPoints.execute(UserPoints.select().order_by(UserPoints.points.desc()))
+		t = []
+		for i in e:
+			t.append(i.login, i.points)
+		return t
