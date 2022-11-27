@@ -8,6 +8,7 @@ class MXRRanking(ManualListView):
     def __init__(self, app):
         super().__init__(self)
         self.app = app
+        self.manager = app.context.ui
 
     async def get_fields(self):
         fields = [ #maybe change that to formatted name?

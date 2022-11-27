@@ -30,6 +30,7 @@ class MxRandomApp(AppConfig):
 		self.api = MXApi()
 		self.api.site = "tm"
 		await self.view.display()
+		
 
 	async def on_start(self):
 		await super().on_start()
@@ -109,7 +110,10 @@ class MxRandomApp(AppConfig):
 				self.isFinished = True
 				self.players_points[player.login] = self.pointsToGive
 				mode_settings = await self.instance.mode_manager.get_settings()
-				mode_settings["S_TimeLimit"] = int((datetime.now() - self.currentMapStartTime).total_seconds()) + 20
+				try:
+					mode_settings["S_TimeLimit"] = int((datetime.now() - self.currentMapStartTime).total_seconds()) + 20
+				except:
+					mode_settings["S_TimeLimit"] = 1
 				await self.instance.mode_manager.update_settings(mode_settings)
 		else :
 			if race_time < self.instance.map_manager.current_map.time_author:
@@ -136,17 +140,18 @@ class MxRandomApp(AppConfig):
 		mode_settings["S_TimeLimit"] = -1
 		await self.instance.mode_manager.update_settings(mode_settings)
 		await self.get_next_map()
+		await self.view.display()
 
 	async def randhelp(self, player, **kwargs):
 		await self.instance.chat("$bMX Random plugin help$z\nWhen someone in the server gets an author medal on the current map, the remaining drivers have 20 seconds to get one as well\nOnce the time is over, the first finisher with Author Time gets 1 point, the second 0.5, the third 0.25, etc.\nAfterwards, the map gets chosen randomly from mania-exchange.", player)
 	
 	async def randrank(self, player, **kwargs):
 		v = MXRRanking(self)
-		v.display(player)
+		await v.display(player=player)
 
 	async def get_all_points(self, **kwargs):
 		e = await UserPoints.execute(UserPoints.select().order_by(UserPoints.points.desc()))
 		t = []
 		for i in e:
-			t.append(i.login, i.points)
+			t.append((i.login, i.points))
 		return t
