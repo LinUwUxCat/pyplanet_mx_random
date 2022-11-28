@@ -106,7 +106,7 @@ class MxRandomApp(AppConfig):
 
 	async def on_finish(self, player, race_time, lap_time, cps, flow, raw, **kwargs):
 		if not self.isFinished:
-			if race_time < self.instance.map_manager.current_map.time_author:
+			if race_time <= self.instance.map_manager.current_map.time_author:
 				self.isFinished = True
 				self.players_points[player.login] = self.pointsToGive
 				mode_settings = await self.instance.mode_manager.get_settings()
@@ -116,7 +116,7 @@ class MxRandomApp(AppConfig):
 					mode_settings["S_TimeLimit"] = 1
 				await self.instance.mode_manager.update_settings(mode_settings)
 		else :
-			if race_time < self.instance.map_manager.current_map.time_author:
+			if race_time <= self.instance.map_manager.current_map.time_author:
 				if not player.login in self.players_points:
 					self.pointsToGive /= 2
 					self.players_points[player.login] = self.pointsToGive
